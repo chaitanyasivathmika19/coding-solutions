@@ -1,0 +1,71 @@
+# Balanced Binary Tree Counter
+
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-green)
+
+## Problem
+
+Given a height  **h**, find the maximum number of distinct balanced binary trees of height exactly h.
+
+A binary tree is balanced if, for every node, the heights of its left and right subtrees differ by at most 1. A tree with a single node has height 1. An empty tree has height 0.
+
+ **Note:**  Since the answer can be very large, return it modulo 109 + 7.
+
+ **Examples:** 
+
+```
+Input: h = 1
+Output: 1
+Explanation: Only one tree of height 1 exists i.e. a single node.
+```
+
+```
+Input: h = 2
+Output: 3 
+Explanation: 3 distinct balanced trees of height 2 exist.
+
+```
+
+```
+Input: h = 3
+Output: 15
+Explanation: 15 distinct balanced trees of height 3 exist.
+
+```
+
+## Solution
+
+**Language:** Java  
+**Runtime:** N/A  
+**Memory:** N/A  
+**Submitted:** 2026-11-06T11:37:24.083Z  
+
+```java
+class Solution {
+    public int countBT(int h) {
+        // code here
+        long mod = 1000000007;
+
+                if (h == 0) {
+                    return 1;
+                }
+
+                long prev2 = 1; // Trees of height 0
+                long prev1 = 1; // Trees of height 1
+
+                for (int i = 2; i <= h; i++) {
+                    long curr = (prev1 * prev1) % mod;
+                    curr = (curr + (2 * prev1 % mod) * prev2) % mod;
+
+                    prev2 = prev1;
+                    prev1 = curr;
+                }
+
+                return (int) prev1;
+    }
+}
+
+```
+
+---
+
+[View on GeeksforGeeks](https://practice.geeksforgeeks.org/problems/bbt-counter4914/1)
