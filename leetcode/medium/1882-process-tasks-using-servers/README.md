@@ -62,9 +62,9 @@ Explanation: Events in chronological order go as follows:
 ## Solution
 
 **Language:** Java  
-**Runtime:** 1 ms  
-**Memory:** 42.5 MB  
-**Submitted:** 2026-11-07T04:59:39.164Z  
+**Runtime:** 253 ms (beats 32.81%)  
+**Memory:** 169.2 MB (beats 76.02%)  
+**Submitted:** 2026-11-07T04:59:50.067Z  
 
 ```java
 class Solution {
