@@ -63,13 +63,13 @@ Explanation: Events in chronological order go as follows:
 
 **Language:** Java  
 **Runtime:** 1 ms  
-**Memory:** 42 MB  
-**Submitted:** 2026-11-07T04:58:58.212Z  
+**Memory:** 42.5 MB  
+**Submitted:** 2026-11-07T04:59:39.164Z  
 
 ```java
 class Solution {
     public int[] assignTasks(int[] servers, int[] tasks) {
-        int n = servers.length;
+ int n = servers.length;
         int m = tasks.length;
 
         int[] ans = new int[m];
@@ -97,26 +97,39 @@ class Solution {
             available.offer(new int[]{servers[i], i});
         }
 
-        for (int i = 0; i < m; i++) {
-            long time = i;
+        long time = 0;
+        int task = 0;
+
+        while (task < m) {
+            time = Math.max(time, task);
+
+            // Release all servers that have finished
+            while (!busy.isEmpty() && busy.peek()[0] <= time) {
+                long[] s = busy.poll();
+                available.offer(new int[]{(int) s[1], (int) s[2]});
+            }
 
             if (available.isEmpty()) {
-                time = Math.max(time, busy.peek()[0]);
+                // Wait until the earliest server becomes free
+                time = busy.peek()[0];
+
+                while (!busy.isEmpty() && busy.peek()[0] <= time) {
+                    long[] s = busy.poll();
+                    available.offer(new int[]{(int) s[1], (int) s[2]});
+                }
             }
 
-            while (!busy.isEmpty() && busy.peek()[0] <= time) {
-                long[] server = busy.poll();
-                available.offer(new int[]{(int) server[1], (int) server[2]});
-            }
-
+            // Assign the next task
             int[] server = available.poll();
-            ans[i] = server[1];
+            ans[task] = server[1];
 
             busy.offer(new long[]{
-                time + tasks[i],
+                time + tasks[task],
                 server[0],
                 server[1]
             });
+
+            task++;
         }
 
         return ans;
